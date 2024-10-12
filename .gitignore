@@ -8,7 +8,7 @@
 *.tfstate.*
 .terraform.lock.hcl
 
-#intellij
+#intellij command
 .idea/
 *.iml
 
