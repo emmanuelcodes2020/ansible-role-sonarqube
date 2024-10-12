@@ -3,4 +3,4 @@
 
 # Ansible role for Sonarqube
 
-This is the ansible role for Sonarqube
+This is the ansible role for Sonarqube and there are commands 
