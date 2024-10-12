@@ -1,0 +1,20 @@
+- name: Start SonarQube
+  command: /opt/sonarqube/sonarqube-{{ sonarqube_version }}/bin/linux-x86-64/sonar.sh start
+  become: true
+  become_user: sonar
+  register: sonarqube_start
+  changed_when: "'SonarQube is already running' not in sonarqube_start.stdout"
+
+- name: Check SonarQube status
+  command: /opt/sonarqube/sonarqube-{{ sonarqube_version }}/bin/linux-x86-64/sonar.sh status
+  become: true
+  become_user: sonar
+  register: sonarqube_status
+  changed_when: false
+  failed_when: "'SonarQube is running' not in sonarqube_status.stdout"
+
+- name: Enable SonarQube service
+  systemd:
+    name: sonarqube
+    enabled: yes
+

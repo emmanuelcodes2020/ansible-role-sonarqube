@@ -1,0 +1,38 @@
+---
+- name: Create SonarQube directory
+  file:
+    path: /opt/sonarqube
+    state: directory
+    mode: '0755'
+
+- name: Download SonarQube
+  get_url:
+    url: "https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-{{ sonarqube_version }}.zip"
+    dest: "/opt/sonarqube-{{ sonarqube_version }}.zip"
+
+- name: Extract SonarQube
+  unarchive:
+    src: "/opt/sonarqube-{{ sonarqube_version }}.zip"
+    dest: /opt/sonarqube
+    remote_src: yes
+    creates: "/opt/sonarqube/sonarqube-{{ sonarqube_version }}"
+
+- name: Create sonar user
+  user:
+    name: sonar
+    system: yes
+    shell: /sbin/nologin
+
+- name: Set ownership and permissions
+  file:
+    path: /opt/sonarqube
+    owner: sonar
+    group: sonar
+    recurse: yes
+    mode: '0755'
+
+- name: Create SonarQube service file
+  template:
+    src: sonarqube.service.j2
+    dest: /etc/systemd/system/sonarqube.service
+    mode: '0644'

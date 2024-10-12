@@ -1,0 +1,17 @@
+---
+# tasks file for ansible-role-sonarqube
+- include_tasks: prepare.yml
+  tags: 
+    - sonarqube
+    - sonarqube_prepare
+
+- include_tasks: systemd.yml
+  tags: 
+    - sonarqube
+    - sonarqube_systemd
+
+
+- include_tasks: service.yml
+  tags: 
+    - sonarqube
+    - sonarqube_service
